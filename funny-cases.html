@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Самые смешные кейсы ассистента</title>
+  <style>
+    :root {
+      --bg: #f7f3eb;
+      --paper: #fffaf1;
+      --ink: #232016;
+      --muted: #6e6656;
+      --line: #ded3bd;
+      --olive: #4f5d2f;
+      --olive-dark: #2f3a1c;
+      --tomato: #c34b36;
+      --gold: #c59a3d;
+      --blue: #315b74;
+      --shadow: 0 18px 45px rgba(65, 54, 31, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(255, 250, 241, 0.78), rgba(247, 243, 235, 0.96)),
+        repeating-linear-gradient(135deg, rgba(79, 93, 47, 0.055) 0 1px, transparent 1px 18px);
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(1180px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 44px 0 22px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-main {
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 241, 0.88);
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      padding: clamp(26px, 5vw, 54px);
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 10px;
+      border: 1px solid rgba(79, 93, 47, 0.22);
+      color: var(--olive-dark);
+      background: rgba(79, 93, 47, 0.08);
+      border-radius: 999px;
+      font-size: 12px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 28px 0 18px;
+      max-width: 780px;
+      font-size: clamp(42px, 7vw, 86px);
+      line-height: 0.92;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 32px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .route-card {
+      border-radius: 8px;
+      background: var(--olive-dark);
+      color: #fffaf1;
+      padding: 28px;
+      min-height: 360px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .route-card::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255, 250, 241, 0.24);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+
+    .route-title {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 14px;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 900;
+      color: rgba(255, 250, 241, 0.72);
+    }
+
+    .tomato-map {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 18px;
+      margin: 30px 0;
+    }
+
+    .map-step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .dot {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--tomato);
+      border: 4px solid rgba(255, 250, 241, 0.22);
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14);
+    }
+
+    .map-step strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    .map-step span {
+      color: rgba(255, 250, 241, 0.72);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .route-note {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: rgba(255, 250, 241, 0.76);
+      line-height: 1.45;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      padding: 12px 0;
+      background: rgba(247, 243, 235, 0.88);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid rgba(222, 211, 189, 0.7);
+      border-bottom: 1px solid rgba(222, 211, 189, 0.7);
+    }
+
+    .toolbar-inner {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .search {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 241, 0.92);
+      color: var(--ink);
+      padding: 0 15px;
+      font: inherit;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: rgba(79, 93, 47, 0.75);
+      box-shadow: 0 0 0 3px rgba(79, 93, 47, 0.12);
+    }
+
+    .counter {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fffaf1;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    main {
+      padding: 34px 0 64px;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .case-card {
+      min-height: 286px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 250, 241, 0.92);
+      box-shadow: 0 12px 32px rgba(65, 54, 31, 0.08);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(79, 93, 47, 0.42);
+      box-shadow: 0 18px 38px rgba(65, 54, 31, 0.12);
+    }
+
+    .case-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--olive);
+      color: #fffaf1;
+      font-weight: 900;
+      font-size: 15px;
+      flex: 0 0 auto;
+    }
+
+    .tag {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: var(--olive-dark);
+      background: rgba(79, 93, 47, 0.08);
+      border: 1px solid rgba(79, 93, 47, 0.16);
+      font-size: 12px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .case-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(22px, 2.3vw, 31px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .case-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.56;
+    }
+
+    .case-card.featured {
+      grid-column: 1 / -1;
+      min-height: 330px;
+      background:
+        linear-gradient(135deg, rgba(195, 75, 54, 0.1), transparent 42%),
+        rgba(255, 250, 241, 0.94);
+    }
+
+    .case-card.featured h2 {
+      font-size: clamp(30px, 4vw, 52px);
+      max-width: 850px;
+    }
+
+    .case-card.featured p {
+      max-width: 940px;
+      font-size: clamp(17px, 1.6vw, 21px);
+    }
+
+    .pattern {
+      margin-top: 26px;
+      border-radius: 8px;
+      border: 1px solid rgba(49, 91, 116, 0.24);
+      background: rgba(49, 91, 116, 0.08);
+      padding: 24px;
+    }
+
+    .pattern h2 {
+      margin: 0 0 10px;
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    .pattern p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 24px 0 34px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 860px) {
+      .hero,
+      .toolbar-inner,
+      .case-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main,
+      .route-card {
+        min-height: auto;
+      }
+
+      .counter {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .wrap {
+        width: min(100% - 24px, 1180px);
+      }
+
+      header {
+        padding-top: 24px;
+      }
+
+      .hero-main,
+      .route-card,
+      .case-card,
+      .pattern {
+        padding: 18px;
+      }
+
+      .case-card {
+        min-height: auto;
+      }
+
+      .case-top {
+        align-items: flex-start;
+      }
+
+      .tag {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <section class="hero-main" aria-labelledby="page-title">
+        <div>
+          <span class="eyebrow">Sanitized selection</span>
+          <h1 id="page-title">Самые смешные кейсы ассистента</h1>
+          <p class="lead">Подборка рабочих ситуаций, где обычное “закажи, уточни, отправь” превращалось в бюрократический квест, мини-детектив или бытовой сериал с новым поворотом в каждом сообщении.</p>
+        </div>
+        <div class="hero-meta" aria-label="Параметры подборки">
+          <span class="chip">20 кейсов</span>
+          <span class="chip">2022-2025</span>
+          <span class="chip">без приватных данных</span>
+          <span class="chip">юмористический пересказ</span>
+        </div>
+      </section>
+
+      <aside class="route-card" aria-label="Главный кейс">
+        <p class="route-title">Главный сюжет</p>
+        <div class="tomato-map">
+          <div class="map-step">
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <strong>Бабушка</strong>
+              <span>хочет отправить зеленые помидоры</span>
+            </div>
+          </div>
+          <div class="map-step">
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <strong>Службы доставки</strong>
+              <span>требуют сертификаты даже на 1 кг</span>
+            </div>
+          </div>
+          <div class="map-step">
+            <span class="dot" aria-hidden="true"></span>
+            <div>
+              <strong>Финал</strong>
+              <span>помидоры едут как спецгруз в кабине</span>
+            </div>
+          </div>
+        </div>
+        <p class="route-note">Операция “Зеленый томат”: когда овощи внезапно требуют логиста, сертификаты и план Б.</p>
+      </aside>
+    </div>
+  </header>
+
+  <section class="toolbar" aria-label="Поиск">
+    <div class="wrap toolbar-inner">
+      <input id="search" class="search" type="search" placeholder="Найти кейс: помидоры, визы, собаки, интернет..." autocomplete="off">
+      <div id="counter" class="counter">Показано 20 из 20</div>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <section class="case-grid" id="cases" aria-label="Список смешных кейсов">
+      <article class="case-card featured" data-tags="помидоры доставка бабушка сертификаты сочи водитель">
+        <div class="case-top"><span class="num">01</span><span class="tag">логистика овощей</span></div>
+        <h2>Доставка бабушкиных зеленых помидоров из Москвы в Сочи</h2>
+        <p>Задача звучала максимально мирно: бабушка хочет отправить зеленые помидоры, надо просто найти экспресс-доставку. Через 20 минут выяснилось, что обычные службы не готовы перевозить продукты без сертификатов даже на 1 кг. Помидоры мгновенно перешли из категории “овощи” в категорию “опасный международный груз”. Решение нашлось почти шпионское: отправить через надежного водителя, который везет вещи в кабине. В итоге это не доставка помидоров, а операция “Зеленый томат”.</p>
+      </article>
+
+      <article class="case-card" data-tags="цветы открытка поздравление португалия">
+        <div class="case-top"><span class="num">02</span><span class="tag">открытка без цензуры</span></div>
+        <h2>Открытка подруге: “ПОЗДРАВЛЯЮ С СЕКСОМ”</h2>
+        <p>По фактам: нужно было отправить подруге цветы и открытку, причем текст открытки был не стандартное “с днем рождения” и не “обнимаю”, а капсом: “ПОЗДРАВЛЯЮ С СЕКСОМ”. Ассистент не завис, не начал уточнять философию события, а просто принял это как нормальную рабочую задачу: “Ахах класс! Сделаем”. Это, наверное, и есть высший уровень сервиса: когда даже такая открытка становится обычным пунктом в списке дел.</p>
+      </article>
+
+      <article class="case-card" data-tags="доски покупки тз кухня">
+        <div class="case-top"><span class="num">03</span><span class="tag">закупки</span></div>
+        <h2>Критерий качества: “не всратые” доски</h2>
+        <p>Ассистенту нужно было найти пластиковые доски для мяса. Цвет: черный или серый. Главное требование: чтобы были не всратые. Это идеальное ТЗ из реальной жизни: дизайнерский бриф на одну строку, но все сразу понятно.</p>
+      </article>
+
+      <article class="case-card" data-tags="собаки москва война вывоз перелет билеты клетки справки">
+        <div class="case-top"><span class="num">04</span><span class="tag">кризисная логистика</span></div>
+        <h2>Вывезти собак из Москвы, когда началась война</h2>
+        <p>Это была не “забавная” задача, а очень характерный ассистентский форс-мажор: в момент, когда все вокруг менялось и планы разваливались, нужно было быстро собрать маршрут, билеты, клетки, справки, подтверждения перевозки и понять, кто физически летит с животными. У авиакомпаний свои правила, у документов свои сроки, у собак свои клетки, а у реальности свой дедлайн. Получилась кризисная логистика с уровнем сложности “сохранить семью, животных и рассудок одновременно”.</p>
+      </article>
+
+      <article class="case-card" data-tags="собаки перелет справки аэропорт документы">
+        <div class="case-top"><span class="num">05</span><span class="tag">собаки и бюрократия</span></div>
+        <h2>Собачьи документы как отдельный факультет права</h2>
+        <p>Перелет с собаками сначала выглядел как обычная покупка билетов, а потом появился список: справка действует несколько дней, нужен человек, который летит, живая очередь, анализ шерсти, мазок, ветпаспорта, аэропортовый обмен документов. Где-то на этом этапе уже кажется, что собаки поступают не на рейс, а в дипломатическую академию.</p>
+      </article>
+
+      <article class="case-card" data-tags="гриль подложка огнеупорное пленка дом">
+        <div class="case-top"><span class="num">06</span><span class="tag">домашняя инженерия</span></div>
+        <h2>Подложка под гриль стала инженерным проектом</h2>
+        <p>Нужно было просто положить что-то под гриль. Но ассистент разложил варианты как техдиректор: если угли не летят - можно пленку; если летят - нужен негорючий коврик; если хотим по-взрослому - огнеупорные плиты. В какой-то момент обычный гриль начал звучать как запуск небольшой ТЭЦ.</p>
+      </article>
+
+      <article class="case-card" data-tags="интернет роутер провайдер антенна связь">
+        <div class="case-top"><span class="num">07</span><span class="tag">интернет-драма</span></div>
+        <h2>Интернет починили всем, кроме нужного дома</h2>
+        <p>Провайдер починил связь в доме, который еще строится, а жилой дом остался без интернета. Ассистент давил поддержку, искал усилители, антенны, спутниковые варианты. Финальный поворот: после всей этой инженерной драмы интернет внезапно ожил после перезагрузки роутера. Классика жанра: сначала вызываем космическую программу, потом выключаем и включаем.</p>
+      </article>
+
+      <article class="case-card" data-tags="otp коды билеты интернет оплата">
+        <div class="case-top"><span class="num">08</span><span class="tag">коды и паника</span></div>
+        <h2>OTP-шторм без интернета</h2>
+        <p>Во время покупки билетов начали приходить платежные коды один за другим. Проблема: у пользователя в этот момент не было нормального интернета. Получился квест на реакцию: поймай код, пока он не устарел, не перепутай десятый с одиннадцатым и не потеряй волю к жизни.</p>
+      </article>
+
+      <article class="case-card" data-tags="коробка офис блендер вибратор">
+        <div class="case-top"><span class="num">09</span><span class="tag">офисный детектив</span></div>
+        <h2>Загадочная коробка: вибратор и блендер</h2>
+        <p>Нашлась коробка из офиса, внутри были два предмета, которые вместе выглядят как улика из странного сериала. Офис сказал: это твое. Пользователь сказал: одним из этого я не пользуюсь. Блендер стоял рядом и тоже не прояснял сюжет.</p>
+      </article>
+
+      <article class="case-card" data-tags="виза паспорт submit сайт консульство">
+        <div class="case-top"><span class="num">10</span><span class="tag">визовый escape room</span></div>
+        <h2>Визовый центр и кнопка submit, которая ушла в отпуск</h2>
+        <p>Паспорт по статусам будто сам перемещался между городами. Горячая линия говорила писать письмо, консульство отправляло в визовый центр, визовый центр отправлял на сайт, а на сайте не нажималась кнопка submit ни с одного устройства. Это уже не бюрократия, а escape room, где последняя дверь нарисована.</p>
+      </article>
+
+      <article class="case-card" data-tags="тьютор собеседование спорт палки дети">
+        <div class="case-top"><span class="num">11</span><span class="tag">кастинг тьютора</span></div>
+        <h2>Тьютор с шаолиньскими палками</h2>
+        <p>На собеседовании кандидат в тьюторы устроил целое спортивное шоу: палки, мячи, бокс, плавание, дисциплина, вставал в 5 утра. Ассистент вроде искал человека для детей, а попал на кастинг “Кунг-фу няня: Бали edition”.</p>
+      </article>
+
+      <article class="case-card" data-tags="тьюторы семья бокс гимнастика осанка политика">
+        <div class="case-top"><span class="num">12</span><span class="tag">семейный подряд</span></div>
+        <h2>Семейная пара тьюторов: бокс, гимнастика, осанка</h2>
+        <p>Другой кандидатский пакет был сразу “2 в 1”: муж - бокс, жена - гимнастика и осанка, вместе - дисциплина, питание, ранние подъемы. В биографии внезапно всплыла политика. Это уже не тьюторы, а маленькое министерство физкультуры с семейным подрядом.</p>
+      </article>
+
+      <article class="case-card" data-tags="йога щенки спорт wellness">
+        <div class="case-top"><span class="num">13</span><span class="tag">wellness-развилка</span></div>
+        <h2>Йога со щенками против йоги “от сатаны”</h2>
+        <p>В один день обсуждались два варианта заботы о себе: нежная йога со щенками и тренировка, после которой можно шутливо “умереть”. Ассистент уже оплатил щенков, но на второй вариант тоже согласился. Баланс: сначала милота, потом наказание.</p>
+      </article>
+
+      <article class="case-card" data-tags="очки живанши givenchy ресейл авито скидка frwrd 450 евро">
+        <div class="case-top"><span class="num">14</span><span class="tag">мода и ресейл</span></div>
+        <h2>Очки: 450 евро, Авито и “Живанши курильщика”</h2>
+        <p>По фактам: ассистент нашел очки и спросил: “Очки 450€. Берём?” Ответ был осторожный: “Я еще подумаю”, а потом сразу включился режим оптимизации: “Может еще есть где-то по скидке или на Авито”. Через несколько минут пришел вариант с ресейла, который был оценен коротко и прекрасно: “Ну там Живанши курильщика”. Потом нашлась более нормальная альтернатива на frwrd примерно за 26 000, и вердикт стал уже мягче: “Ну вот такое куда ни шло”.</p>
+      </article>
+
+      <article class="case-card" data-tags="паспорт курьер дверь документы">
+        <div class="case-top"><span class="num">15</span><span class="tag">доставка документов</span></div>
+        <h2>Паспорт доставили и просто повесили на ручку двери</h2>
+        <p>Важный документ отправили курьером. Казалось бы, тут нужен контроль, передача в руки, ответственность. Но финал был в стиле “оставили пакет с едой”: паспорт просто повесили на ручку двери. Прекрасный кейс для собеседований: “как вы относитесь к хранению документов?”.</p>
+      </article>
+
+      <article class="case-card" data-tags="посылка одежда доставка sms курьеры">
+        <div class="case-top"><span class="num">16</span><span class="tag">логистика против SMS</span></div>
+        <h2>Одежда прошла несколько стран, но проиграла SMS</h2>
+        <p>Посылка пережила сложную цепочку: один город, другой город, частный перевозчик, международная доставка. Все случайные люди справились. А официальный оператор не смог отправить SMS на местный номер и просто отправил посылку обратно. Победитель бюрократического абсурда: короткое сообщение.</p>
+      </article>
+
+      <article class="case-card" data-tags="пункт выдачи чемодан посылка локация">
+        <div class="case-top"><span class="num">17</span><span class="tag">геоквест</span></div>
+        <h2>Пункт выдачи найден случайно в магазине чемоданов</h2>
+        <p>После всех пинов, адресов и уточнений нужная посылка нашлась случайно в магазине чемоданов. Логистика сказала “я сдаюсь”, интуиция сказала “спроси здесь”, и оказалась права. Бонусом был куплен чемодан. Провал превратился в double profit.</p>
+      </article>
+
+      <article class="case-card" data-tags="цветы открытка курьер фото">
+        <div class="case-top"><span class="num">18</span><span class="tag">цветочный детектив</span></div>
+        <h2>Цветы без открытки, зато с выдающейся фотосессией курьера</h2>
+        <p>Пришли цветы, но без карточки. Отправителя пришлось вычислять дедуктивно. Зато фотографии от курьера были настолько выразительные, что открытка уже была не нужна: визуальный сторителлинг победил текст.</p>
+      </article>
+
+      <article class="case-card" data-tags="ассистент работа полушарие мозг">
+        <div class="case-top"><span class="num">19</span><span class="tag">оргструктура</span></div>
+        <h2>Ассистент как внешнее полушарие мозга</h2>
+        <p>В момент обсуждения ухода ассистента прозвучала формулировка, которая смешная ровно потому, что слишком правдивая: человек оказался не просто помощником, а правой рукой, левой рукой и отдельным полушарием мозга. После трех лет задач это уже не метафора, а описание оргструктуры.</p>
+      </article>
+
+      <article class="case-card" data-tags="визы агентство plot twist разрешение">
+        <div class="case-top"><span class="num">20</span><span class="tag">сериал про визы</span></div>
+        <h2>Визы как сериал с бесконечным plot twist</h2>
+        <p>Один визовый квест закончился фразой, которая идеально описывает всю профессию ассистента: никогда не знаешь, какой будет следующий plot twist. Сегодня ты ищешь помидоры, завтра выясняешь, можно ли засудить агентство, послезавтра ловишь разрешение на выезд.</p>
+      </article>
+    </section>
+
+    <section class="pattern" aria-labelledby="pattern-title">
+      <h2 id="pattern-title">Общий паттерн юмора</h2>
+      <p>Самое смешное тут не в отдельных шутках, а в механике жизни: задача начинается как “закажи / уточни / отправь”, а дальше реальность включает режим квеста. Сервисы требуют сертификаты на помидоры, сайты не нажимаются, документы висят на ручке, а собаки проходят бюрократию серьезнее некоторых взрослых.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">Sanitized-версия: без имен, контактов, ссылок, платежных реквизитов, адресов и документов. Тексты являются юмористическим пересказом рабочих ситуаций.</div>
+  </footer>
+
+  <script>
+    const search = document.getElementById("search");
+    const counter = document.getElementById("counter");
+    const cards = Array.from(document.querySelectorAll(".case-card"));
+
+    function normalize(value) {
+      return value.toLowerCase().replace(/\s+/g, " ").trim();
+    }
+
+    function updateList() {
+      const query = normalize(search.value);
+      let visible = 0;
+
+      cards.forEach((card) => {
+        const haystack = normalize(`${card.textContent} ${card.dataset.tags || ""}`);
+        const match = !query || haystack.includes(query);
+        card.classList.toggle("hidden", !match);
+        if (match) visible += 1;
+      });
+
+      counter.textContent = `Показано ${visible} из ${cards.length}`;
+    }
+
+    search.addEventListener("input", updateList);
+    updateList();
+  </script>
+</body>
+</html>
